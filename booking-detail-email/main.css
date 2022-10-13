@@ -34,6 +34,7 @@ p {
 
 
 
+
 /* HEADER */
 
 .banner-header {
@@ -97,13 +98,6 @@ p {
   display: flex;
   justify-content: space-between;
   gap: 24px;
-  margin-top: 24px;
-}
-
-#customer-contact {
-  display: flex;
-  justify-content: space-between;
-  gap: 24px;
   margin-bottom: 24px;
 }
 
@@ -130,12 +124,9 @@ p {
 
 
 
-
-
 #contact-content p {
   margin: 4px auto;
 }
-
 
 
 #vat-invoice p{
@@ -151,7 +142,7 @@ p {
 
 /* BOOKING DETAILS */
 
-.booking-detail-title{
+.booking-detail-title {
   font-weight: 600;
 }
 
@@ -229,6 +220,7 @@ p {
 .sum-total-lable {
   width: 200px;
 }
+
 
 /*PARTICIPANTS INFO SECTION */
 
