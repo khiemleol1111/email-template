@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predefined Block</title>
+</head>
+
+<body>
+
+
+    <!--TỔNG HỢP CÁC PREDEFINEED BLOCK CODE CŨ-->
+
+
+    <!--1. Thông tin khách hàng cho PDF 
+    
+        [[CustomerDetailForPDF],[spBlock_CustomerDetail]]
+    
+    -->
+    @model List<Newtonsoft.Json.Linq.JObject>
+
+
+        <b
+            style="margin-top:10px;font-size: 14px;margin:24px 0 0;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;">
+            Your contact</b>/ <i>Thông tin người đặt chỗ</i>
+        <br />
+        <span
+            style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;">
+            Full name/ <i>Họ tên</i>: @Model.ToList()[0]["CustomerName"]<br>
+            Email: @Model.ToList()[0]["Email"]<br />
+            Phone/ <i>Số điện thoại</i>: @Model.ToList()[0]["Phone"]<br />
+        </span>
+
+
+        <!--2. Tóm tắt thông tin thanh toán PDF 
+    
+        [[PaymentInfoForPDF],[spBlock_BookingAndPaymentDetail]]
+    
+    -->
+        @using Newtonsoft.Json;
+        @model List<Newtonsoft.Json.Linq.JObject>
+            @{
+            var countProductSession = 0;
+            var countCustomerTotal = 0;
+            var sessionProductTotal = 0;
+            string sessionProductTotalStr = "";
+            var sessionCustomerCounter = 0;
+            var sessionServiceTotal = 0;
+            var sessionGrandTotal = 0;
+            var sessionGrandTotalStr = "";
+            var count = 1;
+
+            string subtotal = "";
+            string discount = "";
+            var discountInt = 0;
+            string paid = "";
+            var paidInt = 0;
+            string refund = "";
+            var refundInt = 0;
+            string needToPay = "";
+            string needToPayTitle = "";
+            var needToPayInt = 0;
+            string totalAfterDiscount = "";
+
+            totalAfterDiscount = Model.ToList()[0]["TotalAfterDiscount"].ToString();
+            subtotal = Model.ToList()[0]["Subtotal"].ToString();
+
+            discount = Model.ToList()[0]["Discount"].ToString();
+            discountInt = int.Parse(Model.ToList()[0]["DiscountInt"].ToString());
+
+            paid = Model.ToList()[0]["Paid"].ToString();
+            paidInt = int.Parse(Model.ToList()[0]["PaidInt"].ToString());
+
+            refund = Model.ToList()[0]["Refund"].ToString();
+            refundInt = int.Parse(Model.ToList()[0]["RefundInt"].ToString());
+
+            needToPay = Model.ToList()[0]["NeedToPay"].ToString();
+            needToPayInt = int.Parse(Model.ToList()[0]["NeedToPayInt"].ToString());
+
+
+            if (int.Parse(Model[0]["CountProductSession"].ToString()) > int.Parse("1"))
+            {
+            countProductSession = int.Parse(Model[0]["CountProductSession"].ToString());
+            }
+            if (int.Parse(Model[0]["CountCustomer"].ToString()) > int.Parse("1"))
+            {
+            countCustomerTotal = int.Parse(Model[0]["CountCustomer"].ToString());
+
+            }
+            }
+            <div class="wrap-booking-detail service" style="margin-top:23px;">
+                <span
+                    style="font-weight:600;font-size:16px;text-transform:uppercase;line-height:1;color:#000000;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                    class="title-booking-detal"><b>DETAIL</b>/ CHI TIẾT</span>
+                <br />
+
+                <div class="payment-info-container"
+                    style="border:1px solid #D3D3D9;  border-radius:4px; padding:0 12px;  margin-top: 10px;margin-bottom: 10px;">
+                    @{
+
+                    // lay danh sách sesionid
+                    List<string> sessionIdList = new List<string>();
+
+                            sessionIdList = Model.Select(m =>
+                            m["BookingProductSessionId"].ToString()).Distinct().ToList();
+
+                            string json = "";
+                            string strErr = "";
+
+                            foreach (var sessionId in sessionIdList)
+                            {
+                            var sessionInfoList = Model.Where(n => n["BookingProductSessionId"].ToString() == sessionId
+                            ).Distinct().ToList();
+                            var serviceList = Model.Where(n => n["BookingProductSessionId"].ToString() == sessionId &&
+                            n["ServiceName"] != null && n["ServiceName"].ToString() != ""
+                            ).Select(m => new { Name = m["ServiceName"], Amount = m["AmountService"], Quantity =
+                            m["QuantityService"], TotalAmount = m["TotalAmountService"] })
+                            .Distinct().ToList();
+                            sessionServiceTotal=serviceList.Sum(m=>Int32.Parse(m.TotalAmount.ToString().Replace(",","")));
+
+                            var priceList= Model.Where(n => n["BookingProductSessionId"].ToString() == sessionId
+                            ).Select(m => new { SessionAmountInt = m["SessionAmountInt"], BookingProductPriceId =
+                            m["BookingProductPriceId"],CountCustomer=m["CountCustomer"]}).Distinct().ToList();
+
+                            sessionCustomerCounter = priceList.Sum(m=>int.Parse(m.CountCustomer.ToString()));
+
+                            sessionProductTotal = priceList.Sum(m=>Int32.Parse(m.SessionAmountInt.ToString()));
+                            sessionProductTotalStr = sessionProductTotal.ToString("N0");
+
+                            sessionGrandTotal = sessionServiceTotal + sessionProductTotal;
+                            sessionGrandTotalStr = sessionGrandTotal.ToString("N0");
+
+
+                            List<string> customerIdList = new List<string>();
+                                    customerIdList = Model.Where(n => n["BookingProductSessionId"].ToString() ==
+                                    sessionId).Select(m => m["CustomerId"].ToString()).Distinct().ToList();
+                                    // sessionCustomerCounter = customerIdList.Count();
+
+                                    <table width="100%" style="border-spacing:0">
+                                        <td style="padding:0">
+                                            @if (count <= countProductSession){ <div
+                                                style="display:inline-block;font-weight:600;font-size:16px;line-height:1.5;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;color:#000"
+                                                class="summary-title"><span>
+                                                    @sessionInfoList[0]["ProductName"] </span><span
+                                                    style="font-weight:400 !important;" class="title-thin">
+                                                    (@sessionInfoList[0]["FromDate"] -
+                                                    @sessionInfoList[0]["ToDate"])</span></div>
+                count++;
+                }
+                else{
+                <div style="display:inline-block;font-weight:600;font-size:16px;line-height:1.5;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;color:#000"
+                    class="summary-title"><span> @sessionInfoList[0]["ProductName"]</span><span
+                        style="font-weight:400 !important;" class="title-thin"> (@sessionInfoList[0]["FromDate"] -
+                        @sessionInfoList[0]["ToDate"])</span></div>
+                }
+                </td>
+
+                </table>
+                <table style="border-spacing:0;" class="table-booking-detail table" width="100%">
+                    <tbody>
+                        <tr>
+                            <td style="padding:0;width:5%;vertical-align:top; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                                class="quantity-summary align-top" align="left">@sessionCustomerCounter x</td>
+
+                            <td style="padding:0;width:65%;  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                                class="first-colunm">
+                                Participant(s)/ Người tham gia
+                                <ol style="margin-top: 0;
+        margin-bottom: 12px;padding:0;">
+                                    @{
+
+                                    @foreach (var cusId in customerIdList)
+                                    {
+                                    var cusInfoList = Model.Where(n => n["BookingProductSessionId"].ToString() ==
+                                    sessionId
+                                    && n["CustomerId"].ToString() == cusId).Distinct().ToList();
+                                    <li>@cusInfoList[0]["InfoValue"]</li>
+                                    }
+                                    }
+
+                            </td>
+
+                            <td style="padding:0; width:30%;vertical-align:top;text-align:right;  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                                class="total-booking-detail align-top">@sessionProductTotalStr đ</td>
+                        </tr>
+                        @if (serviceList.Count() > 0)
+                        {
+                        foreach (var service in serviceList)
+                        {
+                        <tr>
+                            <td align="left" class="quantity-summary align-top"
+                                style="padding:0;width:10%;vertical-align:top; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;">
+                                @service.Quantity x</td>
+                            <td style="padding:0;width:55%;  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                                class="first-colunm">@service.Name</td>
+
+                            <td style="padding:0; width:35%;vertical-align:top;text-align:right;  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif!important;"
+                                class="total-booking-detail align-top">@service.TotalAmount đ</td>
+                        </tr>
+                        }
+
+                        }
+
+
+
+                    </tbody>
+                </table>
+
+
+                }
+                @if (sessionIdList != null && sessionIdList.Count() > 0)
+                {
+                <table width="100%">
+                    <tr>
+                        <td style="padding:0;width:40%;"></td>
+
+                        <td style="padding:0; ">
+                            Subtotal/ Tạm tính
+                        </td>
+
+                        <td style="text-align:right; vertical-align:top;" class="align-top-right">
+                            @subtotal đ </td>
+                    </tr>
+                    @if (discountInt > 0)
+                    { <tr>
+                        <td style="padding:0;width:40%;"></td>
+
+                        <td style="padding:0;">
+                            Discount/ Khuyến mãi
+                        </td>
+
+                        <td style="text-align:right; vertical-align:top;" class="align-top-right">
+                            -@discount đ </td>
+                    </tr>
+                    }
+                    <tr>
+                        <td style="padding:0;width:40%;"></td>
+
+                        <td style="padding:0; border-top:1px solid #d3d3d9; " class="total-after-discount-pdf">
+                            <b>Total(VND)/</b> Tổng tiền
+                        </td>
+
+                        <td style="text-align:right; vertical-align:top;border-top:1px solid #d3d3d9;"
+                            class="align-top-right total-after-discount-pdf">
+                            <b>@totalAfterDiscount đ</b>
+                        </td>
+                    </tr>
+
+                </table>
+                }
+
+                }
+            </div>
+            </div>
+
+
+
+</body>
+
+</html>
