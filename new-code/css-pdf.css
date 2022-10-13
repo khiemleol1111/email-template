@@ -1,0 +1,298 @@
+* {
+    font-family: 'Inter', sans-serif;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+  }
+  
+  p {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .page {
+    width: 21cm;
+    height: 29.7cm;
+    margin: auto;
+    font-size: 14px;
+    background: rgb(255, 255, 255);
+  }
+  
+  
+  
+  
+    @page {
+      size: auto;
+      margin: 20mm;
+    }
+   
+  
+  .container {
+    width: 100%;
+    margin: auto;
+    background: white;
+  }
+  
+  
+  
+  /* HEADER */
+  
+  .banner-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  
+  
+  .logo-img {
+    width: 5rem;
+    height: auto;
+  }
+  
+  .banner-header-title {
+    font-size: 14px;
+    margin: 8px 0 40px 0;
+  }
+  
+  .banner-header-title p {
+    margin: 4px auto;
+  }
+  
+  #title-en {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  
+  #title-vn {
+    font-size: 20px;
+  }
+  
+  /* GENERALBOOKING INFOR" */
+  
+  #general-booking-infor{
+    font-size: 14px;
+  }
+  
+  #general-booking-infor-title {
+    font-weight: 600;
+    border-bottom: 2px solid #D3D3D9;
+    padding: 0 0 8px 0;
+    margin-bottom: 16px;
+  }
+  
+  #general-booking-infor-code-status {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  #booking-code {
+    flex: 50%;
+  }
+  
+  #booking-code p {
+    margin: 4px auto;
+  }
+  
+  #customer-contact{
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 24px;
+  }
+  
+  #customer-contact {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+  
+  #contact-infor {
+    flex: 50%;
+  }
+  
+  #payment-method {
+    flex: 50%;
+  }
+  
+  #booking-code-detail {
+    font-weight: 600;
+    color: #017C38;
+  }
+  
+  #booking-status {
+    flex: 50%;
+  }
+  
+  #booking-status p {
+    margin: 4px auto;
+  }
+  
+  
+  
+  
+  
+  #contact-content p {
+    margin: 4px auto;
+  }
+  
+  
+  
+  #vat-invoice p{
+    margin: 4px auto;
+  }
+  
+  #vat-invoice {
+    margin-bottom: 40px;
+  }
+  
+  
+  
+  
+  /* BOOKING DETAILS */
+  
+  .booking-detail-title{
+    font-weight: 600;
+  }
+  
+  .detail-table {
+    margin-top: 8px;
+   width: 100%;
+   border-radius: 4px;
+   border: 1px solid #d3d3d9; 
+   padding: 16px;
+   display: flex;
+   flex-direction: column;
+   line-height: 1.4;
+  }
+  
+  .tour-title{
+    margin-bottom: 4px;
+  }
+  
+  .pax-count {
+    display: inline-block;
+  }
+  
+  .pax-price {
+    display: inline-block;
+  }
+  
+  .sum-label {
+    display: inline-block;
+  }
+  
+  .sum-price {
+    display: inline-block;
+  }
+  
+  .table-devider {
+    border-bottom: 1px solid #D3D3D9;
+  }
+  
+  .sum-price {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+  }
+  
+  .paxs-in-tour{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  
+  .pax-info {
+    margin-left: 48px;
+  }
+  
+  .table-devider{
+    margin: 8px 0;
+  }
+  
+  .sum-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  
+  .sum-row p {
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .sum-label {
+    width: 200px;
+  }
+  
+  .sum-total-lable {
+    width: 200px;
+  }
+  
+  /*PARTICIPANTS INFO SECTION */
+  
+  .booking-participaint-infor-title {
+    border-bottom: 2px solid #D3D3D9;
+    padding: 0 0 8px 0;
+    margin-bottom: 16px;
+    margin-top: 40px;
+  }
+  
+  .dash-devider {
+    border-bottom: 1px dashed #D3D3D9;
+    margin-bottom: 8px;
+  }
+  
+  .booking-participaints-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    row-gap: 40px;
+  }
+  
+  .pax-infor-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  
+  .pax-infor-details {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .pax-answer {
+    font-weight: 600;
+    color:#004E0E;
+  }
+  
+  
+  /*BOOKING CONFRIMATION SECTION */
+  
+  .booking-confirmation {
+    margin-top: 40px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  .booking-confirmation-caption {
+    font-size: 12px;
+  }
+  
+  .booking-confirmation-body {
+    margin-top: 16px;
+    font-size: 12px;
+  }
+  
+  .booking-confirmation-title {
+    font-weight: 600;
+  }
+  
+  .paragraph-title {
+    font-weight: 600;
+  }
+  
+  .content-paragraph{
+    margin-bottom: 16px;
+  }
