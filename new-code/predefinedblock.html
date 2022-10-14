@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predefined Block</title>
+</head>
+
+<body>
+
+
+    <!--TỔNG HỢP CÁC PREDEFINEED BLOCK CODE CŨ-->
+
+
+    <!--1. Thông tin khách hàng cho PDF 
+    
+        [[CustomerDetailForPDF],[spBlock_CustomerDetail]]
+    
+    -->
+
+    @model List<Newtonsoft.Json.Linq.JObject>
+
+        <div id="contact-infor">
+            <div id="contact-title">
+                <span style="font-weight: 600;">Your contact/</span><span> Thông tin người đặt chỗ</span>
+            </div>
+            <div id="contact-content">
+                <p id="contact-fullname">Full Name/ Họ tên: @Model.ToList()[0]["CustomerName"]</p>
+                <p id="contact-email">Email: @Model.ToList()[0]["Email"]</p>
+                <p id="contact-phone">Phone/ Số điện thoại: @Model.ToList()[0]["Phone"]</p>
+            </div>
+        </div>
+
+        
+
+        <!--2. Tóm tắt thông tin thanh toán PDF 
+    
+        [[PaymentInfoForPDF],[spBlock_BookingAndPaymentDetail]]
+    
+    -->
+        @model List<Newtonsoft.Json.Linq.JObject>
+            @{
+            var countProductSession = 0;
+            var countCustomerTotal = 0;
+            var sessionProductTotal = 0;
+            string sessionProductTotalStr = "";
+            var sessionCustomerCounter = 0;
+            var sessionServiceTotal = 0;
+            var sessionGrandTotal = 0;
+            var sessionGrandTotalStr = "";
+            var count = 1;
+
+            string subtotal = "";
+            string discount = "";
+            var discountInt = 0;
+            string paid = "";
+            var paidInt = 0;
+            string refund = "";
+            var refundInt = 0;
+            string needToPay = "";
+            string needToPayTitle = "";
+            var needToPayInt = 0;
+            string totalAfterDiscount = "";
+
+            totalAfterDiscount = Model.ToList()[0]["TotalAfterDiscount"].ToString();
+            subtotal = Model.ToList()[0]["Subtotal"].ToString();
+
+            discount = Model.ToList()[0]["Discount"].ToString();
+            discountInt = int.Parse(Model.ToList()[0]["DiscountInt"].ToString());
+
+            paid = Model.ToList()[0]["Paid"].ToString();
+            paidInt = int.Parse(Model.ToList()[0]["PaidInt"].ToString());
+
+            refund = Model.ToList()[0]["Refund"].ToString();
+            refundInt = int.Parse(Model.ToList()[0]["RefundInt"].ToString());
+
+            needToPay = Model.ToList()[0]["NeedToPay"].ToString();
+            needToPayInt = int.Parse(Model.ToList()[0]["NeedToPayInt"].ToString());
+
+
+            if (int.Parse(Model[0]["CountProductSession"].ToString()) > int.Parse("1"))
+            {
+            countProductSession = int.Parse(Model[0]["CountProductSession"].ToString());
+            }
+            if (int.Parse(Model[0]["CountCustomer"].ToString()) > int.Parse("1"))
+            {
+            countCustomerTotal = int.Parse(Model[0]["CountCustomer"].ToString());
+
+            }
+            }
+
+
+
+
+            <div class="booking-detail-title">DETAIL/ THÔNG TIN CHI TIẾT
+            </div>
+            <div class="detail-table">
+                <div class="tour-title">
+                    <span style="font-weight: 600;">Son Doong Expedition 4 Days</span> (20/07/2021 -
+                    25/07/2021)
+                </div>
+                <!-- <p class="tour-title"><span style="font-weight: 600;">Son Doong Expedition 4 Days</span> (20/07/2021 -
+                25/07/2021)</p> -->
+                <div class="paxs-in-tour">
+                    <span class="pax-count"><span>1 x </span> Participant(s)/ Người tham gia</span>
+                    <span class="pax-price">58,200,000 đ</span>
+                </div>
+
+            </div>
+
+
+
+            <!--3. Thông tin VAT cho PDF 
+    
+        [[VATInfoForPDF],[spBlock_CustomerDetail]]
+    
+    -->
+    @model List<Newtonsoft.Json.Linq.JObject>
+        <div id="vat-invoice-title">
+          <span style="font-weight: 600;">VAT invoice/</span><span> Hóa đơn VAT</span>
+        </div>
+        <p id="vat-invoice-company-name">Company name/ Tên công ty: @Model.ToList()[0]["VATName"]</p>
+        <p id="vat-invoice-tax-code">Tax code/ Mã số thuế: @Model.ToList()[0]["TaxIdNumber"]</p>
+        <p id="vat-invoice-address">Address/ Địa chỉ: @Model.ToList()[0]["VATAddress"]</p>
+
+
+</body>
+
+</html>
